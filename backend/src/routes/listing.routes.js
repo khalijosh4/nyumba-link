@@ -1,0 +1,11 @@
+const router=require('express').Router(),c=require('../controllers/listing.controller');
+const{authenticate,optionalAuth,authorize}=require('../middleware/auth.middleware');
+router.get('/',optionalAuth,c.getListings);
+router.get('/my',authenticate,c.getMyListings);
+router.get('/favourites',authenticate,c.getFavourites);
+router.get('/:id',optionalAuth,c.getListingById);
+router.post('/',authenticate,authorize('landlord','caretaker','admin'),c.createListing);
+router.put('/:id',authenticate,c.updateListing);
+router.delete('/:id',authenticate,c.deleteListing);
+router.post('/:id/favourite',authenticate,c.toggleFavourite);
+module.exports=router;

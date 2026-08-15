@@ -1,0 +1,15 @@
+const router=require('express').Router(),{body}=require('express-validator');
+const{authenticate}=require('../middleware/auth.middleware'),{validateRequest}=require('../middleware/validate.middleware'),c=require('../controllers/user.controller');
+router.use(authenticate);
+router.get('/profile',c.getProfile);
+router.patch('/profile',[body('first_name').optional().trim().isLength({min:2,max:80}),body('last_name').optional().trim().isLength({min:2,max:80}),body('phone').optional().matches(/^(\+?254|0)[17]\d{8}$/),body('bio').optional().isLength({max:500}),validateRequest],c.updateProfile);
+router.patch('/change-password',[body('current_password').notEmpty(),body('new_password').isLength({min:8}),validateRequest],c.changePassword);
+router.get('/notifications',c.getNotifications);
+router.patch('/notifications/read-all',c.markAllNotificationsRead);
+router.patch('/notifications/:id/read',c.markNotificationRead);
+router.delete('/notifications/:id',c.deleteNotification);
+router.get('/search-alerts',c.getSearchAlerts);
+router.post('/search-alerts',[body('area').optional().isString(),body('room_type').optional(),body('min_rent').optional().isInt({min:0}),body('max_rent').optional().isInt({min:0}),validateRequest],c.createSearchAlert);
+router.delete('/search-alerts/:id',c.deleteSearchAlert);
+router.get('/dashboard-stats',c.getDashboardStats);
+module.exports=router;
