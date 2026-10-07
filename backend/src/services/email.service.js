@@ -2,7 +2,7 @@ const axios=require('axios');
 const {query}=require('../config/database');
 const FROM=process.env.MAILERSEND_FROM_EMAIL||'noreply@nyumbalink.co.ke';
 const FROM_NAME=process.env.MAILERSEND_FROM_NAME||'NyumbaLink';
-const FE=()=>process.env.FRONTEND_URL||'http://localhost:5173';
+const FE=()=>process.env.FRONTEND_URL||'http://localhost:5180';
 
 async function send({to,toName,subject,html,type='general'}){
   const key=process.env.MAILERSEND_API_KEY;

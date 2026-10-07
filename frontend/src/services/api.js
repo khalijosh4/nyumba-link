@@ -1,5 +1,5 @@
 import axios from'axios';
-const api=axios.create({baseURL:import.meta.env.VITE_API_URL||'http://localhost:5000/api',timeout:15000});
+const api=axios.create({baseURL:import.meta.env.VITE_API_URL||'http://localhost:5001/api',timeout:15000});
 api.interceptors.request.use(cfg=>{const t=localStorage.getItem('nl_token');if(t)cfg.headers.Authorization=`Bearer ${t}`;return cfg;});
 api.interceptors.response.use(r=>r,err=>{if(err.response?.status===401){localStorage.removeItem('nl_token');delete api.defaults.headers.common['Authorization'];if(window.location.pathname.startsWith('/dashboard'))window.location.href='/?login=1';}return Promise.reject(err);});
 export default api;
